@@ -2,13 +2,14 @@ import React from "react";
 import { Button, Grid, Input, Text } from "../elements";
 import { getCookie, setCookie, deleteCookie } from "../shared/Cookie";
 
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+
 const Login = (props) => {
-  console.log(getCookie("user_id"));
-  //로그인버튼에 콜백으로 줄 로그인 함수
+  const dispatch = useDispatch();
 
   const login = () => {
-    setCookie("user_id", "midi", 3);
-    setCookie("user_pwd", "pppp", 3);
+    dispatch(userActions.loginAction({ user_name: "midi" }));
   };
 
   return (
