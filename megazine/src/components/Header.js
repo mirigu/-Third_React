@@ -1,22 +1,12 @@
 import React from "react";
 import { Grid, Button, Text } from "../elements";
-import { getCookie, deleteCookie } from "../shared/Cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Header = (props) => {
-  const [is_login, setIsLogin] = React.useState(false);
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    let cookie = getCookie("user_id");
-
-    console.log(cookie);
-
-    //쿠키가 있으면?
-    if (cookie) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  });
+  const is_login = useSelector((state) => state.user.is_login);
 
   //로그인 상태이면
   if (is_login) {
@@ -30,7 +20,7 @@ const Header = (props) => {
               <Button margin="0px 10px">알림</Button>
               <Button
                 _onClick={() => {
-                  deleteCookie("user_id");
+                  dispatch(userActions.logOut({}));
                 }}
               >
                 로그아웃
