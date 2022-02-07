@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Grid, Text } from "../elements";
 
 const Input = (props) => {
-  const { label, placeholder } = props;
+  const { label, placeholder, _onChange, type } = props;
 
   return (
     <React.Fragment>
@@ -11,7 +11,7 @@ const Input = (props) => {
         <Text margin="0px 0px 5px 5px" bold>
           {label}
         </Text>
-        <InputBox placeholder={placeholder} />
+        <InputBox type={type} placeholder={placeholder} onChange={_onChange} />
       </Grid>
     </React.Fragment>
   );
@@ -20,6 +20,8 @@ const Input = (props) => {
 Input.defaultProps = {
   label: "텍스트",
   placeholder: "텍스트를 입력해주세요.",
+  _onChange: () => {}, //콜백함수
+  type: "text",
 };
 
 const InputBox = styled.input`
