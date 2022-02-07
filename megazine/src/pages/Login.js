@@ -31,7 +31,7 @@ const Login = (props) => {
   return (
     <React.Fragment>
       <Grid padding="16px">
-        <Text size="30px" bold>
+        <Text size="24px" bold>
           로그인
         </Text>
         <Grid padding="16px 0px">
