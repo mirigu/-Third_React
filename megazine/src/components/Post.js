@@ -19,7 +19,7 @@ const Post = (props) => {
           <Image shape="rectangle" src={props.src} />
         </Grid>
         <Grid padding="10px">
-          <Text bold>댓글 {props.comment_cnt}개</Text>
+          <Text bold>좋아요 {props.comment_cnt}개</Text>
         </Grid>
       </Grid>
     </React.Fragment>

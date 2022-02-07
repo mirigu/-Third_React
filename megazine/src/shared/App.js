@@ -9,6 +9,7 @@ import PostList from "../pages/PostList";
 import Login from "../pages/Login";
 import Singup from "../pages/Singup";
 import PostWrite from "../pages/PostWrite";
+import PostDetail from "../pages/PostDetail";
 
 import Header from "../components/Header";
 import Permit from "./Permit";
@@ -42,6 +43,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Singup} />
         <Route path="/postwrite" component={PostWrite} />
+        <Route path="/post/:id" component={PostDetail} />
       </ConnectedRouter>
       <Permit>
         <Button is_float>
