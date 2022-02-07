@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Image, Text, Input, Button } from "../elements";
+import Upload from "../shared/Upload";
 
 const PostWrite = (props) => {
   return (
@@ -8,7 +9,7 @@ const PostWrite = (props) => {
         <Text size="24px" bold>
           게시글 작성
         </Text>
-        <input type="file" />
+        <Upload />
       </Grid>
       <Grid padding="16px">
         <Grid>
