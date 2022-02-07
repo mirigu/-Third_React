@@ -13,9 +13,11 @@ const Singup = (props) => {
   const [user_name, setUserName] = React.useState("");
 
   const singup = () => {
+    // 아이디, 유저네임, 비밀번호 값이 없으면 return
     if (id === "" || pwd === "" || user_name === "") {
       return;
     }
+    // 비밀번호와 비밀번호 확인이 다르면 return (실행 x)
     if (pwd !== pwd_check) {
       return;
     }
