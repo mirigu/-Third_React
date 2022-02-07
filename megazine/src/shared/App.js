@@ -8,6 +8,7 @@ import { history } from "../redux/configureStore";
 import PostList from "../pages/PostList";
 import Login from "../pages/Login";
 import Singup from "../pages/Singup";
+import PostWrite from "../pages/PostWrite";
 
 import Header from "../components/Header";
 import Permit from "./Permit";
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" exact component={PostList} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Singup} />
+        <Route path="/postwrite" component={PostWrite} />
       </ConnectedRouter>
       <Permit>
         <Button is_float>

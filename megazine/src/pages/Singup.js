@@ -44,7 +44,7 @@ const Singup = (props) => {
   return (
     <React.Fragment>
       <Grid padding="16px">
-        <Text size="30px" bold>
+        <Text size="24px" bold>
           회원가입
         </Text>
         <Grid padding="16px 0px">
