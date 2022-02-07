@@ -10,10 +10,15 @@ import Login from "../pages/Login";
 import Singup from "../pages/Singup";
 
 import Header from "../components/Header";
+import Permit from "./Permit";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { apiKey } from "./firebase";
+import { Button } from "../elements";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +41,11 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Singup} />
       </ConnectedRouter>
+      <Permit>
+        <Button is_float>
+          <FontAwesomeIcon icon={faPlus} />
+        </Button>
+      </Permit>
     </React.Fragment>
   );
 }

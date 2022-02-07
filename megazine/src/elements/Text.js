@@ -10,6 +10,7 @@ const Text = (props) => {
     size: size,
     margin: margin,
   };
+
   return <P {...styles}>{children}</P>;
 };
 
