@@ -13,7 +13,19 @@ const Upload = (props) => {
     console.log(e.target);
     console.log(e.target.files[0]);
 
-    console.log(fileInput.current.files[0]);
+    console.log(fileInput.current.files[0]); //파일 하나
+
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+
+    //파일 읽기
+    reader.readAsDataURL(file);
+    //읽기가 끝나면 발생하는 이벤트 핸들러
+    reader.onloadend = () => {
+      //읽은 결과값보기
+      console.log(reader.result);
+      dispatch(imageActions.setPreview(reader.result));
+    };
   };
 
   const uploadFB = () => {

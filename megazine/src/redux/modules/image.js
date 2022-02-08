@@ -10,15 +10,19 @@ import { storage } from "../../shared/firebase";
 const UPLOADING = "UPLOADING";
 //파일을 업로드 하는 액션
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+//프리뷰 설정 액션
+const SET_PREVIEW = "SET_PREVIEW";
 
 // action creators: 액션 생성 함수 만들기
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
 const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
+const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
 
 //initialState 만들기
 const initialState = {
   image_url: "",
   uploading: false, //처음엔 업로드중이 아니기때문에 false로 지정
+  preview: null,
 };
 
 //파이어베이스에 업로드하기
@@ -54,6 +58,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.uploading = action.payload.uploading;
       }),
+    [SET_PREVIEW]: (state, action) =>
+      produce(state, (draft) => {
+        draft.preview = action.payload.preview;
+      }),
   },
   initialState
 );
@@ -62,6 +70,7 @@ export default handleActions(
 const actionCreators = {
   uploadImage,
   uploadImageFB,
+  setPreview,
 };
 
 export { actionCreators };

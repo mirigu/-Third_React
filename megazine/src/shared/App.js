@@ -42,7 +42,8 @@ function App() {
         <Route path="/" exact component={PostList} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Singup} />
-        <Route path="/write" component={PostWrite} />
+        <Route path="/write" exact component={PostWrite} />
+        <Route path="/write/:id" component={PostWrite} />
         <Route path="/post/:id" component={PostDetail} />
       </ConnectedRouter>
       <Permit>
