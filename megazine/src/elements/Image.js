@@ -42,6 +42,7 @@ const AspectInner = styled.div`
   padding-top: 75%;
   overflow: hidden;
   background-image: url("${(props) => props.src}");
+  background-position: 50%;
   background-size: cover;
   margin: ${(props) => props.margin};
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Grid, Text } from "../elements";
 
 const Input = (props) => {
-  const { label, placeholder, _onChange, type, multiLine } = props;
+  const { label, placeholder, _onChange, type, multiLine, value } = props;
 
   if (multiLine) {
     return (
@@ -12,6 +12,7 @@ const Input = (props) => {
           <Text margin="0px 0px 5px 5px">{label}</Text>
           <Textarea
             rows={10}
+            value={value}
             placeholder={placeholder}
             onChange={_onChange}
           ></Textarea>
@@ -38,6 +39,7 @@ Input.defaultProps = {
   placeholder: "텍스트를 입력해주세요.",
   _onChange: () => {}, //콜백함수
   type: "text",
+  value: "",
 };
 
 const Textarea = styled.textarea`
