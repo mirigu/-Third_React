@@ -42,11 +42,16 @@ function App() {
         <Route path="/" exact component={PostList} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Singup} />
-        <Route path="/postwrite" component={PostWrite} />
+        <Route path="/write" component={PostWrite} />
         <Route path="/post/:id" component={PostDetail} />
       </ConnectedRouter>
       <Permit>
-        <Button is_float>
+        <Button
+          is_float
+          _onClick={() => {
+            history.push("/write");
+          }}
+        >
           <FontAwesomeIcon icon={faPlus} />
         </Button>
       </Permit>

@@ -70,6 +70,7 @@ const AddBtn = styled.button`
   color: #fbeaff;
   font-size: 24px;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 export default Button;
