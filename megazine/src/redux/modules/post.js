@@ -3,6 +3,7 @@ import { createAction, handleActions } from "redux-actions";
 // 불변성 관리를 편하게 해주는
 import { produce } from "immer";
 import { firestore } from "../../shared/firebase";
+import moment from "moment";
 
 // actions: 액션타입 만들기
 // 목록 가져오기
@@ -20,23 +21,54 @@ const initialState = {
 };
 
 const initialPost = {
-  id: 0,
-  uesr_info: {
-    user_name: "miri",
-    user_profile:
-      "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2021/12/29/Ouc00W5WCPWU637764128299973913.jpg",
-  },
+  // id: 0,
+  // uesr_info: {
+  //   user_name: "miri",
+  //   user_profile:
+  //     "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2021/12/29/Ouc00W5WCPWU637764128299973913.jpg",
+  // },
   image_url:
     "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2021/12/29/Ouc00W5WCPWU637764128299973913.jpg",
-  contents: "예쁘네용",
-  comment_cnt: 10,
-  insert_dt: " 2022-02-04 21:00:00",
+  contents: "",
+  comment_cnt: 0,
+  insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
-//파이어스토어 연동
+const addPostFB = (contents = "") => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection("post");
+
+    const _user = getState().user.user;
+
+    const uesr_info = {
+      user_name: _user.user_name,
+      user_id: _user.uid,
+      user_profile: _user.user_profile,
+    };
+
+    const _post = {
+      ...initialPost,
+      contents: contents,
+      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+    };
+
+    postDB
+      .add({ ...uesr_info, ..._post })
+      .then((doc) => {
+        let post = { uesr_info, ..._post, id: doc.id };
+        //리덕스에 넣어주기
+        dispatch(addPost(post));
+      })
+      .catch((error) => {
+        console.log("post 작성에 실패했어요!", error);
+      });
+  };
+};
+
 const getPostFB = () => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection("post");
+    //데이터 가져오기
     postDB.get().then((docs) => {
       let post_list = [];
       docs.forEach((doc) => {
@@ -74,7 +106,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list = action.payload.post_list;
       }),
-    [ADD_POST]: (state, action) => produce(state, (draft) => {}),
+    [ADD_POST]: (state, action) =>
+      produce(state, (draft) => {
+        //unshift는 배열 맨 앞에 데이터 넣어줌
+        draft.list.unshift(action.payload.post);
+      }),
   },
   initialState
 );
@@ -84,6 +120,7 @@ const actionCreators = {
   setPost,
   addPost,
   getPostFB,
+  addPostFB,
 };
 
 export { actionCreators };
