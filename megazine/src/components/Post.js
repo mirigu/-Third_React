@@ -5,8 +5,8 @@ import { history } from "../redux/configureStore";
 const Post = (props) => {
   return (
     <React.Fragment>
-      <Grid padding="16px">
-        <Grid is_flex>
+      <Grid>
+        <Grid is_flex padding="16px">
           <Grid is_left>
             <Image shape="circle" src={props.src} />
             <Text margin="0px 5px" bold>
@@ -31,22 +31,41 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        <Grid padding="10px">
-          <Text>{props.contents}</Text>
-        </Grid>
-        <Grid>
-          <Image shape="rectangle" src={props.image_url} />
-        </Grid>
-        <Grid padding="10px">
-          <Text bold>좋아요 {props.comment_cnt}개</Text>
-        </Grid>
+        {props.layout === "right" && (
+          <Grid is_flex padding="16px 0px">
+            <Grid padding="16px">
+              <Text textAlign bold>
+                {props.contents}
+              </Text>
+            </Grid>
+            <Image shape="rectangle" src={props.image_url} />
+          </Grid>
+        )}
+        {props.layout === "left" && (
+          <Grid is_flex padding="16px 0px">
+            <Image shape="rectangle" src={props.image_url} />
+            <Grid padding="16px">
+              <Text textAlign bold>
+                {props.contents}
+              </Text>
+            </Grid>
+          </Grid>
+        )}
+        {props.layout === "bottom" && (
+          <Grid padding="16px 0px">
+            <Grid padding="5px 16px">
+              <Text bold>{props.contents}</Text>
+            </Grid>
+            <Image shape="rectangle" src={props.image_url} />
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );
 };
 
 Post.defaultProps = {
-  uesr_info: {
+  user_info: {
     user_name: "miri",
     user_profile:
       "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2021/12/29/Ouc00W5WCPWU637764128299973913.jpg",
