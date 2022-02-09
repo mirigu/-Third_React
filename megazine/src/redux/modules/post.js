@@ -39,6 +39,7 @@ const initialPost = {
     "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2021/12/29/Ouc00W5WCPWU637764128299973913.jpg",
   contents: "",
   comment_cnt: 0,
+  layout: "bottom",
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
@@ -102,7 +103,7 @@ const editPostFB = (post_id = null, post = {}) => {
   };
 };
 
-const addPostFB = (contents = "") => {
+const addPostFB = (contents = "", layout = "") => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection("post");
     //getState()로 store의 상태값에 접근
@@ -116,6 +117,7 @@ const addPostFB = (contents = "") => {
 
     const _post = {
       ...initialPost,
+      layout,
       contents: contents,
       insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
     };
@@ -183,6 +185,7 @@ const getPostFB = () => {
           image_url: _post.image_url,
           comment_cnt: _post.comment_cnt,
           insert_dt: _post.insert_dt,
+          layout: _post.layout,
         };
         post_list.push(post);
       });

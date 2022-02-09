@@ -19,6 +19,7 @@ const PostWrite = (props) => {
 
   let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
 
+  const [layout, setLayout] = React.useState(_post ? _post.layout : "bottom");
   const [contents, setContents] = React.useState(_post ? _post.contents : "");
 
   React.useEffect(() => {
@@ -40,13 +41,27 @@ const PostWrite = (props) => {
 
   //포스트 추가
   const addPost = () => {
-    dispatch(postActions.addPostFB(contents));
+    if (contents === "" || preview === "") {
+      window.alert(
+        "게시글 작성 중 입력되지 않은 부분이 있습니다. 확인해주세요!"
+      );
+      return;
+    }
+
+    dispatch(postActions.addPostFB(contents, layout));
     history.replace("/");
   };
 
   //포스트 수정
   const editPost = () => {
-    dispatch(postActions.editPostFB(post_id, { contents: contents }));
+    dispatch(postActions.editPostFB(post_id, { contents: contents, layout }));
+  };
+
+  const checked = (e) => {
+    if (e.target.checked) {
+      setLayout(e.target.value);
+      console.log(e.target.value);
+    }
   };
 
   //로그인 하지 않았을 경우,
@@ -82,11 +97,73 @@ const PostWrite = (props) => {
           <Text margin="5px 0px" size="14px" bold>
             미리보기
           </Text>
-          <Image
-            shape="rectangle"
-            margin="0px 0px 20px 0px"
-            src={preview ? preview : "http://via.placeholder.com/400x300"}
+          {/* 오른쪽 레이아웃 */}
+          <input
+            type="radio"
+            name="layout"
+            id="right"
+            value="right"
+            onChange={checked}
           />
+          <label htmlFor="right">
+            <strong>이미지 오른쪽 레이아웃</strong>
+          </label>
+          <Grid is_flex>
+            <Grid>
+              <Text textAlign bold>
+                이미지 오른쪽 레이아웃
+              </Text>
+            </Grid>
+            <Image
+              shape="rectangle"
+              margin="0px 0px 20px 0px"
+              src={preview ? preview : "http://via.placeholder.com/400x300"}
+            />
+          </Grid>
+
+          {/* 왼쪽 레이아웃 */}
+          <input
+            type="radio"
+            name="layout"
+            id="left"
+            value="left"
+            onChange={checked}
+          />
+          <label htmlFor="left">
+            <strong>이미지 왼쪽 레이아웃</strong>
+          </label>
+          <Grid is_flex>
+            <Image
+              shape="rectangle"
+              margin="0px 0px 20px 0px"
+              src={preview ? preview : "http://via.placeholder.com/400x300"}
+            />
+            <Grid>
+              <Text textAlign bold>
+                이미지 왼쪽 레이아웃
+              </Text>
+            </Grid>
+          </Grid>
+
+          {/* 아래쪽 레이아웃 */}
+          <input
+            type="radio"
+            name="layout"
+            id="bottom"
+            value="bottom"
+            onChange={checked}
+          />
+          <label htmlFor="bottom">
+            <strong>이미지 아래쪽 레이아웃</strong>
+          </label>
+          <Grid>
+            <Text bold>이미지 아래쪽 레이아웃</Text>
+            <Image
+              shape="rectangle"
+              margin="0px 0px 20px 0px"
+              src={preview ? preview : "http://via.placeholder.com/400x300"}
+            />
+          </Grid>
         </Grid>
         <Grid>
           <Input
