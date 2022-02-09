@@ -12,16 +12,12 @@ const PostWrite = (props) => {
   const preview = useSelector((state) => state.image.preview);
   const post_list = useSelector((state) => state.post.list);
 
-  console.log(props.match.params.id);
-
   const post_id = props.match.params.id;
   const is_edit = post_id ? true : false;
 
   const { history } = props;
 
   let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
-
-  console.log(_post);
 
   const [contents, setContents] = React.useState(_post ? _post.contents : "");
 
@@ -42,9 +38,15 @@ const PostWrite = (props) => {
     setContents(e.target.value);
   };
 
+  //포스트 추가
   const addPost = () => {
     dispatch(postActions.addPostFB(contents));
     history.replace("/");
+  };
+
+  //포스트 수정
+  const editPost = () => {
+    dispatch(postActions.editPostFB(post_id, { contents: contents }));
   };
 
   //로그인 하지 않았을 경우,
@@ -71,7 +73,7 @@ const PostWrite = (props) => {
     <React.Fragment>
       <Grid padding="16px">
         <Text size="24px" bold>
-          게시글 작성
+          {is_edit ? "게시글 수정" : "게시글 작성"}
         </Text>
         <Upload />
       </Grid>
@@ -96,7 +98,11 @@ const PostWrite = (props) => {
           />
         </Grid>
         <Grid padding="16px 0px">
-          <Button _onClick={addPost}>게시물 작성</Button>
+          {is_edit ? (
+            <Button _onClick={editPost}>게시물 수정</Button>
+          ) : (
+            <Button _onClick={addPost}>게시물 작성</Button>
+          )}
         </Grid>
       </Grid>
     </React.Fragment>
