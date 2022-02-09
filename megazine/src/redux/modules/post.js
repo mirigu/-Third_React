@@ -12,10 +12,16 @@ import { actionCreators as imageActions } from "./image";
 const SET_POST = "SET_POST";
 // 목록 추가하기
 const ADD_POST = "ADD_POST";
+// 목록 수정하기
+const EDIT_POST = "EDIT_POST";
 
 // action creators: 액션 생성 함수 만들기
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+  post_id,
+  post,
+}));
 
 //initialState 만들기
 const initialState = {
@@ -34,6 +40,66 @@ const initialPost = {
   contents: "",
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+};
+
+const editPostFB = (post_id = null, post = {}) => {
+  return function (dispatch, getState, { history }) {
+    if (!post_id) {
+      console.log("게시물 정보가 없어요!");
+      return;
+    }
+    //preview가져오기
+    const _image = getState().image.preview;
+
+    //게시글 정보 가져오기
+    const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
+    const _post = getState().post.list[_post_idx];
+
+    console.log(_post);
+
+    const postDB = firestore.collection("post");
+
+    if (_image === _post.image_url) {
+      postDB
+        .doc(post_id)
+        .update(post)
+        .then((doc) => {
+          dispatch(editPost(post_id, { ...post }));
+          history.replace("/");
+        });
+
+      return;
+    } else {
+      const user_id = getState().user.user.uid;
+      const _upload = storage
+        //파일 이름을 유저id와 현재시간을 밀리초로 넣어주기(중복방지)
+        .ref(`images/${user_id}_${new Date().getTime()}`)
+        .putString(_image, "data_url");
+
+      _upload.then((snapshot) => {
+        snapshot.ref
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+            dispatch(imageActions.uploadImage(url));
+            return url;
+          })
+          .then((url) => {
+            postDB
+              .doc(post_id)
+              .update({ ...post, image_url: url })
+              .then((doc) => {
+                dispatch(editPost(post_id, { ...post, image_url: url }));
+                history.replace("/");
+              });
+          })
+          .catch((error) => {
+            window.alert("앗! 이미지 업로드에 문제가 있어요!");
+            console.log("앗! 이미지 업로드에 문제가 있어요!", error);
+          });
+      });
+    }
+  };
 };
 
 const addPostFB = (contents = "") => {
@@ -55,8 +121,6 @@ const addPostFB = (contents = "") => {
     };
 
     const _image = getState().image.preview;
-    console.log(_image);
-    console.log(typeof _image);
 
     //문자열에서 업로드
     const _upload = storage
@@ -118,7 +182,7 @@ const getPostFB = () => {
           contents: _post.contents,
           image_url: _post.image_url,
           comment_cnt: _post.comment_cnt,
-          imsert_dt: _post.insert_dt,
+          insert_dt: _post.insert_dt,
         };
         post_list.push(post);
       });
@@ -142,6 +206,13 @@ export default handleActions(
         //unshift는 배열 맨 앞에 데이터 넣어줌
         draft.list.unshift(action.payload.post);
       }),
+    [EDIT_POST]: (state, action) =>
+      produce(state, (draft) => {
+        //리스트에서 몇번째를 고칠건지
+        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+
+        draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
+      }),
   },
   initialState
 );
@@ -152,6 +223,7 @@ const actionCreators = {
   addPost,
   getPostFB,
   addPostFB,
+  editPostFB,
 };
 
 export { actionCreators };

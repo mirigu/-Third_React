@@ -10,7 +10,7 @@ const Post = (props) => {
           <Grid is_left>
             <Image shape="circle" src={props.src} />
             <Text margin="0px 5px" bold>
-              {props.uesr_info.user_name}
+              {props.user_info.user_name}
             </Text>
           </Grid>
           <Grid is_right>
