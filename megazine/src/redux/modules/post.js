@@ -10,10 +10,12 @@ import { actionCreators as imageActions } from "./image";
 // actions: 액션타입 만들기
 // 목록 가져오기
 const SET_POST = "SET_POST";
-// 목록 추가하기
+// 포스트 추가하기
 const ADD_POST = "ADD_POST";
-// 목록 수정하기
+// 포스트 수정하기
 const EDIT_POST = "EDIT_POST";
+// 포스트 삭제하기
+const DELETE_POST = "DELETE_POST";
 
 // action creators: 액션 생성 함수 만들기
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
@@ -22,6 +24,7 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
   post,
 }));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 
 //initialState 만들기
 const initialState = {
@@ -43,6 +46,29 @@ const initialPost = {
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
 
+//포스트 삭제하기
+const deletePostFB = (post_id = null) => {
+  return function (dispatch, getState, { history }) {
+    if (!post_id) {
+      console.log("게시물 정보가 없어요!");
+      return;
+    }
+    const postDB = firestore.collection("post");
+
+    postDB
+      .doc(post_id)
+      .delete()
+      .then((doc) => {
+        dispatch(deletePost(post_id));
+      })
+      .catch((error) => {
+        window.alert("앗! 게시물 삭제에 문제가 있어요!");
+        console.log("앗! 게시물 삭제에 문제가 있어요!", error);
+      });
+  };
+};
+
+//포스트 수정하기
 const editPostFB = (post_id = null, post = {}) => {
   return function (dispatch, getState, { history }) {
     if (!post_id) {
@@ -216,6 +242,7 @@ export default handleActions(
 
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
+    [DELETE_POST]: (state, action) => produce(state, (draft) => {}),
   },
   initialState
 );
@@ -227,6 +254,7 @@ const actionCreators = {
   getPostFB,
   addPostFB,
   editPostFB,
+  deletePostFB,
 };
 
 export { actionCreators };
