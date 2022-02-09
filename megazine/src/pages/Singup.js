@@ -6,6 +6,7 @@ import { emailCheck, pwdCheck } from "../shared/common";
 
 const Singup = (props) => {
   const dispatch = useDispatch();
+  const { history } = props;
 
   //id, pwd, 닉네임 가져오기
   const [id, setId] = React.useState("");

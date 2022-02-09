@@ -76,16 +76,7 @@ const signupFB = (id, pwd, user_name) => {
           })
           //성공했을때,
           .then(() => {
-            // 닉네임이 성공적으로 바뀌었을 때, 로그인 상태 바꾸기
-            dispatch(
-              setUser({
-                user_name: user_name,
-                id: id,
-                user_profile: "",
-                uid: user.user.uid,
-              })
-            );
-            history.push("/");
+            history.push("/login");
           })
 
           .catch((error) => {

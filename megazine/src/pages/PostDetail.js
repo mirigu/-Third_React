@@ -1,10 +1,15 @@
 import React from "react";
 import Post from "../components/Post";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { firestore } from "../shared/firebase";
+import { Button, Grid } from "../elements";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostDetail = (props) => {
+  const dispatch = useDispatch();
+
+  const { history } = props;
   //게시글 id값 가져오기
   const id = props.match.params.id;
   console.log(id);
@@ -47,10 +52,21 @@ const PostDetail = (props) => {
       });
   }, []);
 
+  //
+  const deletePost = () => {
+    dispatch(postActions.deletePostFB(id));
+    history.push("/");
+  };
+
   return (
     <React.Fragment>
       {post && (
-        <Post {...post} is_me={post.user_info.user_id === user_info.uid} />
+        <Grid>
+          <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />
+          <Grid padding="16px">
+            <Button _onClick={deletePost}>삭제</Button>
+          </Grid>
+        </Grid>
       )}
     </React.Fragment>
   );
