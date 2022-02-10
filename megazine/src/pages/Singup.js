@@ -6,7 +6,6 @@ import { emailCheck, pwdCheck } from "../shared/common";
 
 const Singup = (props) => {
   const dispatch = useDispatch();
-  const { history } = props;
 
   //id, pwd, 닉네임 가져오기
   const [id, setId] = React.useState("");
@@ -48,10 +47,10 @@ const Singup = (props) => {
         <Text size="24px" bold>
           회원가입
         </Text>
-        <Grid padding="16px 0px">
+        <Grid padding="10px 0px">
           <Input
             label="아이디"
-            placeholder=" 아이디를 입력해주세요."
+            placeholder=" 아이디를 입력해주세요.(이메일형식으로 입력바랍니다.)"
             _onChange={(e) => {
               setId(e.target.value);
             }}
@@ -69,7 +68,7 @@ const Singup = (props) => {
         <Grid padding="10px 0px">
           <Input
             label="비밀번호"
-            placeholder=" 비밀번호를 입력해주세요."
+            placeholder=" 비밀번호를 입력해주세요.(최소8자이상, 문자,숫자,특수문자 각 1개이상 포함)"
             type="password"
             _onChange={(e) => {
               setPwd(e.target.value);

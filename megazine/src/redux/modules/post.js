@@ -54,13 +54,14 @@ const deletePostFB = (post_id = null) => {
       return;
     }
     const postDB = firestore.collection("post");
-
     postDB
       .doc(post_id)
       .delete()
-      .then((doc) => {
+      .then(() => {
         dispatch(deletePost(post_id));
+        history.replace("/");
       })
+
       .catch((error) => {
         window.alert("앗! 게시물 삭제에 문제가 있어요!");
         console.log("앗! 게시물 삭제에 문제가 있어요!", error);
@@ -242,7 +243,10 @@ export default handleActions(
 
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
-    [DELETE_POST]: (state, action) => produce(state, (draft) => {}),
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = draft.list.filter((l) => l.id !== action.payload.post_id);
+      }),
   },
   initialState
 );

@@ -9,7 +9,6 @@ const Button = (props) => {
     padding: padding,
     margin: margin,
     bg: bg,
-    is_float: is_float,
   };
 
   if (is_float) {

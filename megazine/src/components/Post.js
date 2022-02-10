@@ -1,8 +1,17 @@
 import React from "react";
 import { Grid, Image, Text, Button } from "../elements/index";
 import { history } from "../redux/configureStore";
+import { useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
+  const dispatch = useDispatch();
+
+  //게시글 삭제하기
+  const deletePost = () => {
+    dispatch(postActions.deletePostFB(props.id));
+  };
+
   return (
     <React.Fragment>
       <Grid>
@@ -17,7 +26,7 @@ const Post = (props) => {
             <Text margin="0px 2px" bold>
               {props.insert_dt}
             </Text>
-            {/* props에 버튼이 있는 경우에만, 버튼 보여주기 */}
+            {/* props에 버튼이 있는 경우에만, 수정버튼 보여주기 */}
             {props.is_me && (
               <Button
                 width="auto"
@@ -29,8 +38,20 @@ const Post = (props) => {
                 수정
               </Button>
             )}
+            {/* props에 버튼이 있는 경우에만, 삭제버튼 보여주기 */}
+            {props.is_me && (
+              <Button
+                width="auto"
+                padding="4px"
+                margin="0px 5px"
+                _onClick={deletePost}
+              >
+                삭제
+              </Button>
+            )}
           </Grid>
         </Grid>
+        {/* 레이아웃이 right 일때 게시글 형태 */}
         {props.layout === "right" && (
           <Grid is_flex padding="16px 0px">
             <Grid padding="16px">
@@ -41,6 +62,7 @@ const Post = (props) => {
             <Image shape="rectangle" src={props.image_url} />
           </Grid>
         )}
+        {/* 레이아웃이 left 일때 게시글 형태 */}
         {props.layout === "left" && (
           <Grid is_flex padding="16px 0px">
             <Image shape="rectangle" src={props.image_url} />
@@ -51,6 +73,7 @@ const Post = (props) => {
             </Grid>
           </Grid>
         )}
+        {/* 레이아웃이 bottom 일때 게시글 형태 */}
         {props.layout === "bottom" && (
           <Grid padding="16px 0px">
             <Grid padding="5px 16px">
