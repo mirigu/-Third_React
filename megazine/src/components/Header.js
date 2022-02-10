@@ -10,17 +10,7 @@ const Header = (props) => {
 
   const is_login = useSelector((state) => state.user.is_login);
 
-  //세션 있는지 체크
-  // const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-  // const is_session = sessionStorage.getItem(_session_key) ? true : false;
-  // console.log(is_session);
-
-  //로그인 상태이면
-  // if (is_login && is_session) {
-  //   return (
-
-  //   );
-  // }
+  //로그인 상태일때,
   if (is_login) {
     return (
       <Permit>
@@ -46,7 +36,7 @@ const Header = (props) => {
     );
   }
 
-  //로그인 상태가 아니면
+  //로그인 상태가 아닐때,
   return (
     <React.Fragment>
       <Grid padding="16px">
