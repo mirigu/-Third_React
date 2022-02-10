@@ -1,9 +1,13 @@
 import React from "react";
 import { Grid, Button, Text } from "../elements";
+
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import Permit from "../shared/Permit";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -17,7 +21,21 @@ const Header = (props) => {
         <React.Fragment>
           <Grid padding="16px">
             <Grid is_flex>
-              <Text bold>Home</Text>
+              <Text
+                bold
+                _onClick={() => {
+                  history.push("/");
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faHome}
+                  style={{
+                    fontSize: "30px",
+                    margin: "0px 10px",
+                    color: "#B39CD0",
+                  }}
+                />
+              </Text>
               <Grid is_flex width="60%">
                 <Button>내정보</Button>
                 <Button margin="0px 10px">알림</Button>
@@ -41,7 +59,17 @@ const Header = (props) => {
     <React.Fragment>
       <Grid padding="16px">
         <Grid is_flex>
-          <Text bold>Home</Text>
+          <Text
+            bold
+            _onClick={() => {
+              history.push("/");
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faHome}
+              style={{ fontSize: "30px", margin: "0px 10px", color: "#B39CD0" }}
+            />
+          </Text>
           <Grid is_flex width="50%">
             <Button
               margin="0px 10px"
